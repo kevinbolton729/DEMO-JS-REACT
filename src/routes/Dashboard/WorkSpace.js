@@ -1,29 +1,27 @@
 import { Avatar } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 // Config
 import { URL_PREFIX } from '../../config';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 // 常量
 import { ROLE_NAME } from '../../utils/consts';
-// 声明
-import { IWorkItems, IWorkProps, IWorkStates } from './';
 // 样式
-const styles = require('./WorkSpace.less');
+import styles from './WorkSpace.less';
 
-@connect(({ workspace, user }: any) => ({
+@connect(({ user }) => ({
   currentUser: user.currentUser,
 }))
-class WorkSpace extends React.PureComponent<IWorkProps, IWorkStates> implements IWorkItems {
+class WorkSpace extends React.PureComponent {
   getShowDate = () => {
-    enum formats {
-      Daybreak = '凌晨',
-      Morning = '早上',
-      Midday = '中午',
-      Afternoon = '下午',
-      Night = '晚上',
-    }
+    const formats = {
+      Daybreak: '凌晨',
+      Morning: '早上',
+      Midday: '中午',
+      Afternoon: '下午',
+      Night: '晚上',
+    };
     const now = moment();
     const hour = now.hour();
     let i = 'Daybreak';

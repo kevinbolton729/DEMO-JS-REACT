@@ -2,25 +2,23 @@
  * @Author: Kevin Bolton
  * @Date: 2018-02-05 22:04:50
  * @Last Modified by: Kevin Bolton
- * @Last Modified time: 2018-06-06 11:28:21
+ * @Last Modified time: 2018-06-11 20:26:33
  */
 import { message as openMessage } from 'antd';
 import { routerRedux } from 'dva/router';
 import md5 from 'js-md5';
 // Config
 import { API_DOMAIN, SECRETKEY_USER, URL_PREFIX } from '../../config';
-// 声明
-import { IFns } from '../../global';
 // 常量
 // import {} from '../consts';
 
 // md5处理
-export const setMd5: IFns['setMd5'] = pwd => {
+export const setMd5 = (pwd) => {
   return md5(md5(pwd + SECRETKEY_USER) + SECRETKEY_USER);
 };
 
 // 格式化数字
-const twoDecimal: IFns['twoDecimal'] = num => {
+const twoDecimal = (num) => {
   // 显示数字，保留小数点后两位
   // 返回值的类型为String
   const f = parseFloat(num);
@@ -31,10 +29,9 @@ const twoDecimal: IFns['twoDecimal'] = num => {
 
   return (Math.floor(f * 100) / 100).toFixed(2);
 };
-export const parseNum: IFns['parseNum'] = value =>
-  twoDecimal(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+export const parseNum = value => twoDecimal(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 // 解析URL地址
-export const parseUrl = (url: string) => {
+export const parseUrl = (url) => {
   let newUrl = url;
   const httpIndexOf = newUrl && newUrl.indexOf('http');
   if (httpIndexOf === -1) {
@@ -50,7 +47,7 @@ export const parseUrl = (url: string) => {
  * @param {Array} firstMenus 一级菜单
  * @param {Array} [data=[]]  菜单数据
  */
-export const getMenus: IFns['getMenus'] = (firstMenus, data = []) =>
+export const getMenus = (firstMenus, data = []) =>
   firstMenus.reduce((arr, current) => {
     const children = [];
     const obj = { ...current };
@@ -65,7 +62,7 @@ export const getMenus: IFns['getMenus'] = (firstMenus, data = []) =>
  * @description 生成一级菜单
  * @param {Array} [data=[]]  菜单数据
  */
-export const getFirstMenu: IFns['getFirstMenu'] = (data = []) =>
+export const getFirstMenu = (data = []) =>
   data.reduce((arr, current) => {
     if (parseInt(current.sortPid, 10) === 0) {
       return arr.concat(current);
@@ -76,7 +73,7 @@ export const getFirstMenu: IFns['getFirstMenu'] = (data = []) =>
  * @description 生成下级菜单
  * @param {Array} [data=[]]  菜单数据
  */
-export const getChildMenus: IFns['getChildMenus'] = (sortId, data = []) =>
+export const getChildMenus = (sortId, data = []) =>
   data.reduce((arr, current) => {
     const children = [];
     if (sortId === current.sortPid) {
@@ -90,15 +87,15 @@ export const getChildMenus: IFns['getChildMenus'] = (sortId, data = []) =>
     return arr;
   }, []);
 // 字符串转换成大写
-export const strToUpper: IFns['strToUpper'] = str => str.toString().toUpperCase();
+export const strToUpper = str => str.toString().toUpperCase();
 // 获取图片Base64编码内容
-export const getBase64: IFns['getBase64'] = (img, callback) => {
+export const getBase64 = (img, callback) => {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
 };
 // base64 to Blob
-export const base64UrlToBlob: IFns['base64UrlToBlob'] = urlData => {
+export const base64UrlToBlob = (urlData) => {
   // 去掉url的头，并转换为byte
   const bytes = window.atob(urlData.split(',')[1]);
   // 处理异常,将ascii码小于0的转换为大于0
@@ -115,7 +112,7 @@ export const base64UrlToBlob: IFns['base64UrlToBlob'] = urlData => {
   });
 };
 // 过滤react-quill getContent()的内容，获取待上传的图片
-export const getUploadImgs: IFns['getUploadImgs'] = (passArr = []) => {
+export const getUploadImgs = (passArr = []) => {
   if (passArr.length === 0) return passArr;
 
   const newArr = passArr;
@@ -136,7 +133,7 @@ export const getUploadImgs: IFns['getUploadImgs'] = (passArr = []) => {
   return uploadImages;
 };
 // 使用图片url 替换 Delta中base64 image
-export const covertBase64toUrl: IFns['covertBase64toUrl'] = params => {
+export const covertBase64toUrl = (params) => {
   const { data, contentOps } = params;
   // console.log(data, 'data');
   // console.log(contentOps, 'contentOps');
@@ -155,7 +152,7 @@ export const covertBase64toUrl: IFns['covertBase64toUrl'] = params => {
   return contentOps;
 };
 // 图片上传前
-export const beforeUpload: IFns['beforeUpload'] = file => {
+export const beforeUpload = (file) => {
   const isIMG =
     file.type.indexOf('image/jpeg') !== -1 ||
     file.type.indexOf('image/gif') !== -1 ||
@@ -172,7 +169,7 @@ export const beforeUpload: IFns['beforeUpload'] = file => {
   return isIMG && isLt;
 };
 // 视频上传前
-export const beforeUploadVideo: IFns['beforeUploadVideo'] = file => {
+export const beforeUploadVideo = (file) => {
   const isMp4 = file.type.indexOf('video/mp4') !== -1;
   const isLt = file.size / 1024 / 1024 < 50;
 
@@ -189,9 +186,9 @@ export const beforeUploadVideo: IFns['beforeUploadVideo'] = file => {
 
 // [models]
 // 跳转页面
-export const gotoPage: IFns['gotoPage'] = function*(params) {
+export function* gotoPage(params) {
   const { url, key, put } = yield params;
 
   // yield console.log(key, 'key');
   yield put(routerRedux.push({ pathname: url, query: { key } }));
-};
+}

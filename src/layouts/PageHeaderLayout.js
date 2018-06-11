@@ -1,12 +1,10 @@
 import { Link } from 'dva/router';
-import * as React from 'react';
+import React from 'react';
 import PageHeader from '../components/PageHeader';
-// 声明
-import { IPageHeaderLayoutProps } from './';
 // 样式
-const styles = require('./PageHeaderLayout.less');
+import styles from './PageHeaderLayout.less';
 
-export default ({ children, wrapperClassName, top, ...restProps }: IPageHeaderLayoutProps) => (
+export default ({ children, wrapperClassName, top, ...restProps }) => (
   <div style={{ margin: '-24px -24px 0' }} className={wrapperClassName}>
     {top}
     <PageHeader key="pageheader" {...restProps} linkElement={Link} />

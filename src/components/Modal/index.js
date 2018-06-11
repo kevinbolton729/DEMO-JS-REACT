@@ -2,13 +2,10 @@
  * @Author: Kevin Bolton
  * @Date: 2018-01-05 15:10:05
  * @Last Modified by: Kevin Bolton
- * @Last Modified time: 2018-04-20 13:47:23
+ * @Last Modified time: 2018-06-11 20:36:25
  */
 import { Modal } from 'antd';
-import * as React from 'react';
-
-// 声明
-import { ConfirmOptions, ModalOptions } from './modal';
+import React from 'react';
 
 const { confirm } = Modal;
 
@@ -26,7 +23,7 @@ const { confirm } = Modal;
  * {onOk}: function 点击确认,
  * {onCancel}: function 点击取消,
  */
-export function openConfirm(options: ConfirmOptions<string> = {}) {
+export function openConfirm(options = {}) {
   const instance = confirm({
     title: options.title || '确认操作',
     content: options.content || '是否继续本次操作？',
@@ -75,7 +72,7 @@ export function openConfirm(options: ConfirmOptions<string> = {}) {
  * {content}: string|number 内容,
  * {children}: ReactNode|Html 子元素 当传入children时，content无效,
  */
-export function openModal(this: React.Component, options: ModalOptions<string, boolean> = {}) {
+export function openModal(options = {}) {
   const newOptions = options;
 
   if (!newOptions.handleOk) {
@@ -100,7 +97,7 @@ export function openModal(this: React.Component, options: ModalOptions<string, b
 
   return (
     <Modal
-      destroyOnClose={true}
+      destroyOnClose
       title={newOptions.title || '确认操作'}
       width={newOptions.width || 520}
       visible={newOptions.visible}

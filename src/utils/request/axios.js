@@ -1,8 +1,6 @@
 import { notification } from 'antd';
 import axios from 'axios';
 import qs from 'qs';
-// 声明
-import { IAxios } from '../../global';
 // 常量
 // import { API_DATA_ERROR } from './consts';
 
@@ -25,7 +23,7 @@ const codeMessage = {
   555: '网络请求错误',
 };
 
-const checkStatus: IAxios['checkStatus'] = (response, resolve) => {
+const checkStatus = (response, resolve) => {
   if (response.status >= 200 && response.status < 300) {
     return resolve(response);
   }
@@ -34,12 +32,12 @@ const checkStatus: IAxios['checkStatus'] = (response, resolve) => {
     message: `请求错误 ${response.status}: ${response.url}`,
     description: errortext,
   });
-  const error: IAxios['error'] = new Error(errortext);
+  const error = new Error(errortext);
   error.status = response.status;
   throw error;
 };
 
-const fetch: IAxios['fetch'] = (url: string, options: any) => {
+const fetch = (url, options) => {
   let withCredentials = true;
   if (options && options.credentials) {
     withCredentials = options.credentials;
@@ -57,10 +55,10 @@ const fetch: IAxios['fetch'] = (url: string, options: any) => {
       withCredentials,
       responseType: options.responseType || 'json',
     })
-      .then(response => {
+      .then((response) => {
         checkStatus(response, resolve);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
@@ -83,11 +81,11 @@ const fetch: IAxios['fetch'] = (url: string, options: any) => {
 // request/response拦截器
 // Add a request interceptor
 axios.interceptors.request.use(
-  config => {
+  (config) => {
     // Do something before request is sent
     return config;
   },
-  error => {
+  (error) => {
     // Do something with request error
     return Promise.reject(error);
   }
@@ -95,11 +93,11 @@ axios.interceptors.request.use(
 
 // Add a response interceptor
 axios.interceptors.response.use(
-  response => {
+  (response) => {
     // Do something with response data
     return response;
   },
-  error => {
+  (error) => {
     // Do something with response error
     return Promise.reject(error);
   }
@@ -112,7 +110,7 @@ axios.interceptors.response.use(
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-const request: IAxios['request'] = (url, options) => {
+const request = (url, options) => {
   const newOptions = { ...options };
 
   newOptions.headers = {
@@ -136,7 +134,7 @@ const request: IAxios['request'] = (url, options) => {
   }
 
   return fetch(url, newOptions)
-    .then((response: any) => {
+    .then((response) => {
       if (response.data.code === 1) {
         // notification.warn({
         //   message: '网络请求错误',
@@ -146,7 +144,7 @@ const request: IAxios['request'] = (url, options) => {
       }
       return response.data;
     })
-    .catch((error: IAxios['error']) => {
+    .catch((error) => {
       const newError = error;
       const errorMessage = newError.message;
       newError.message = codeMessage[newError.status] || codeMessage['555'];

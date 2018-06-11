@@ -13,17 +13,16 @@ import FastClick from 'fastclick';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
+// 富文本编辑器 react-quill样式
+import 'react-quill/dist/quill.snow.css';
 // 样式
-import 'react-quill/dist/quill.snow.css'; // 富文本编辑器 react-quill样式
-// 声明
-import { App } from './global';
 import './static/index.less';
 
 // Moment 中文设置
 moment.locale('zh-cn');
 
 // 1. Initialize
-const app: App = dva({
+const app = dva({
   history: createHistory(),
 });
 

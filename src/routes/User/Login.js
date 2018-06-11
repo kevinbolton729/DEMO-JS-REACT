@@ -1,22 +1,19 @@
 import { Alert, Checkbox, Icon } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import * as React from 'react';
+import React from 'react';
 // 组件库
 import Login from '../../components/Login';
-// 声明
-import { ILoginItems, ILoginProps, ILoginStates } from './';
-
 // 样式
-const styles = require('./Login.less');
+import styles from './Login.less';
 // 组件
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
-@connect(({ login, loading }: any) => ({
+@connect(({ login, loading }) => ({
   login,
   submitting: loading.effects['login/login'],
 }))
-class LoginComponent extends React.Component<ILoginProps, ILoginStates> implements ILoginItems {
+class LoginComponent extends React.PureComponent {
   state = {
     type: 'account',
     autoLogin: true,
@@ -34,7 +31,7 @@ class LoginComponent extends React.Component<ILoginProps, ILoginStates> implemen
     this.setState({ type });
   };
 
-  handleSubmit = (err: any, values: any) => {
+  handleSubmit = (err, values) => {
     const { type } = this.state;
     if (!err) {
       this.props.dispatch({
@@ -47,14 +44,14 @@ class LoginComponent extends React.Component<ILoginProps, ILoginStates> implemen
     }
   };
 
-  changeAutoLogin = (event: any) => {
+  changeAutoLogin = (event) => {
     this.setState({
       autoLogin: event.target.checked,
     });
   };
 
-  renderMessage = (content: string) => {
-    return <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon={true} />;
+  renderMessage = (content) => {
+    return <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />;
   };
 
   render() {
