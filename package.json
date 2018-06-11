@@ -1,7 +1,7 @@
 {
-  "name": "demo-ts-react",
-  "version": "1.1.0",
-  "description": "An demo-ts-react project",
+  "name": "demo-js-react",
+  "version": "1.0.0",
+  "description": "An demo-js-react project",
   "private": true,
   "scripts": {
     "precommit": "npm run lint-staged",
