@@ -9,7 +9,6 @@ import {
   shippingData,
   businessCompanyData,
   unusualData,
-  userData,
   dutyData,
 } from './mock/datas';
 
